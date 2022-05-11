@@ -1,6 +1,6 @@
 # Everactive Data Services Example
 
-This repository contains a multi-container docker-compose environment to receive, store and review Eversensor time series readings. It is intended as a tool to for evaluating Everactive's Data Services. As such, this project is not a production ready sample.
+This repository contains a multi-container docker-compose environment to receive, store, and review Eversensor time series readings. The environment has three main componets:
 
 The environment has three main componets:
 
