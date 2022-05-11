@@ -53,7 +53,6 @@ Steps to use this sample:
   npx localtunnel --port 4440
   ```
 - Register the webhook with Everactive using the following command:
-
   ```
   curl -v -X POST 'https://api.data.everactive.com/ds/v1/webhooks \
   -H `Authorization: Bearer {{access_token}}' \
