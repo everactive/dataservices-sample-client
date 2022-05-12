@@ -1,0 +1,224 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "iteration": 1652279281006,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PF7D8AB79CB6B7962"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Temp (°C)",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "humidity"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Humidity (%)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PF7D8AB79CB6B7962"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  ts AS \"time\",\n  ((reading->'humidityMeasurements'->>0)::json->>'value')::numeric humidity,\n  ((reading->'temperatureMeasurements'->>0)::json->>'value')::numeric - 273.15 temp0,\n  ((reading->'temperatureMeasurements'->>1)::json->>'value')::numeric - 273.15 temp1,\n  ((reading->'temperatureMeasurements'->>2)::json->>'value')::numeric - 273.15 temp2\nFROM sensor_readings\nWHERE\n  $__timeFilter(ts) AND\n  sensor_mac_address = '$sensor_mac'\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "((reading->'humidityMeasurements'->>0)::json->>'value')::numeric humidity"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "((reading->'temperatureMeasurements'->>0)::json->>'value')::numeric - 273.15 temp0"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "((reading->'temperatureMeasurements'->>1)::json->>'value')::numeric - 273.15 temp1"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "((reading->'temperatureMeasurements'->>2)::json->>'value')::numeric - 273.15 temp2"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "sensor_readings",
+          "timeColumn": "ts",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "macaddr8",
+              "name": "",
+              "params": ["sensor_mac_address", "=", "'$sensor_mac'"],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "title": "Temp / Humidity",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "PF7D8AB79CB6B7962"
+        },
+        "definition": "select distinct sensor_mac_address from public.sensor_readings",
+        "description": "List of unique MAC Addresses",
+        "hide": 0,
+        "includeAll": false,
+        "label": "MAC",
+        "multi": false,
+        "name": "sensor_mac",
+        "options": [],
+        "query": "select distinct sensor_mac_address from public.sensor_readings",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Sensor Data",
+  "uid": "LVdb09_nk",
+  "version": 4,
+  "weekStart": ""
+}

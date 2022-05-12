@@ -1,0 +1,32 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: TimeseriesDB
+    orgId: 1
+
+datasources:
+- name: TimeseriesDB
+  orgId: 1
+  type: postgres
+  typeName: PostgreSQL
+  typeLogoUrl: public/app/plugins/datasource/postgres/img/postgresql_logo.svg
+  access: proxy
+  url: timeseries-db:5432
+  user: $TIMESERIES_USER
+  database: postgres
+  basicAuth: false
+  isDefault: true
+  jsonData:
+    maxOpenConns: 10
+    postgresVersion: 1200
+    sslmode: disable
+    timescaledb: true
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    tlsConfigurationMethod: file-path
+    tlsSkipVerify: true
+  secureJsonData:
+    password: $TIMESERIES_PASSWORD
+  readOnly: false
+  version: 1
+  editable: true

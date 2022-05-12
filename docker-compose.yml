@@ -1,0 +1,74 @@
+version : '3.7'
+
+services:
+  timeseries-db:
+    image: timescale/timescaledb:latest-pg14
+    container_name: sample-timeseries-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - timeseries-postgres-data:/var/lib/postgresql/data
+      - ./timeseries-db/initdb.d/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - everactivesamplenet
+    expose:
+      - '4441'
+    ports:
+      - '4441:5432'
+
+  grafana-app:
+    image: grafana/grafana-oss
+    container_name: sample-grafana-app
+    restart: unless-stopped
+    environment:
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/usr/share/grafana/public/dashboards/sensor-readings.json
+      - TIMESERIES_USER=postgres
+      - TIMESERIES_PASSWORD=postgres
+    depends_on:
+      - timeseries-db
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/public/dashboards:/usr/share/grafana/public/dashboards
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - everactivesamplenet
+    expose:
+      - '4442'
+    ports:
+      - '4442:3000'
+
+  webhook-app:
+    build:
+      context: ./webhook
+    container_name: sample-webhook-app
+    restart: unless-stopped
+    environment:
+      - API_KEY=secret_key
+      - PORT=3001
+      - PGUSER=postgres
+      - PGHOST=timeseries-db
+      - PGPASSWORD=postgres
+      - PGPORT=5432
+      - PGDATABASE=postgres
+    user: 'node'
+    depends_on:
+      - timeseries-db
+    volumes:
+      - ./webhook:/usr/src/app
+      - /usr/src/app/node_modules # anonymous volume to detach local node_modules from container
+    networks:
+      - everactivesamplenet
+    expose:
+      - '4440'
+    ports:
+      - '4440:3001'
+    command: node src/app.js
+
+networks:
+  everactivesamplenet:
+
+volumes:
+  grafana-storage:
+  timeseries-postgres-data:
