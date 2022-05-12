@@ -1,5 +1,5 @@
 {
-  "name": "everactive-dataservices-webhook-sample",
+  "name": "everactive-dataservices-webhook-application",
   "version": "1.0.0",
   "description": "Sample project to consume Everactive webhook messages",
   "main": "app.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/everactive/nodejs-webhook-sample.git"
+    "url": "git+https://github.com/everactive/dataservices-sample-client"
   },
   "author": "Rob Cook <robert.cook@everactive.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/everactive/nodejs-webhook-sample/issues"
+    "url": "https://github.com/everactive/dataservices-sample-client/issues"
   },
-  "homepage": "https://github.com/everactive/nodejs-webhook-sample#readme",
+  "homepage": "https://github.com/everactive/dataservices-sample-client#readme",
   "dependencies": {
     "express": "^4.17.3",
     "pg": "^8.7.3",
