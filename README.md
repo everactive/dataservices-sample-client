@@ -1,6 +1,8 @@
 # Everactive Data Services Example
 
-This repository contains a multi-container docker-compose environment to receive, store, and review Eversensor time series readings. The environment has three main componets:
+This repository contains a multi-container docker-compose environment to receive, store and review Eversensor time series readings. It is intended to provide a quick way to begin consuming Eversensor readings and is not a production ready sample.
+
+The environment has three main componets:
 
 The environment has three main componets:
 
@@ -53,6 +55,7 @@ Steps to use this sample:
   npx localtunnel --port 4440
   ```
 - Register the webhook with Everactive using the following command:
+
   ```
   curl -v -X POST 'https://api.data.everactive.com/ds/v1/webhooks \
   -H `Authorization: Bearer {{access_token}}' \
