@@ -40,7 +40,8 @@ app.get('/', async (req, res) => {
 /**
  * POST /
  * 
- * Store the body in the values array.
+ * Store the body in the ephemeral values array and persist the data
+ * to the database.
  */
 app.post('/', async (req, res) => {
     const reqSecret = req.header('x-api-key');
@@ -50,11 +51,27 @@ app.post('/', async (req, res) => {
     }
 
     const doc = req.body;
+    console.log(`Received reading: ${JSON.stringify(doc)}`);
 
-    InsertReading(doc);
+    try {
+        await InsertReading(doc);
+    } catch (e) {
+        // It's possible for webhook publishers to send duplicate
+        // entries to webhook subscribers in some circumstances. This
+        // try/catch is to prevent duplicate key violations from
+        // crashing the webhook receiver.
+        if (e?.constraint?.includes('sensor_readings_pkey')) {
+            console.log(`Duplicate entry received.`);
+            res.sendStatus(200);
+            return;
+        } else {
+            console.log(`Error while saving record: ${JSON.stringify(e)}`)
+            res.sendStatus(400);
+            return;
+        }
+    }
 
     values.unshift(doc);
-
     if (values.length > 10) {
         values.length = 10;
     }
