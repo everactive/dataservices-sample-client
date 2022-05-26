@@ -18,15 +18,17 @@ The node webhook application is an [express](https://www.npmjs.com/package/expre
 
 `GET /health` - Returns a simple 200 status code if the application is running successfully.
 
-To prevent invalid requests to the webhook application, the POST and GET / endpoints require a header `x-api-key` for authorization. The value for this header is set via the `API_KEY` environment variable in the docker-compose.yml file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value or a 401 status code will be returned.
+**Authorization:** To prevent invalid requests to the webhook application, the POST and GET / endpoints require a header `x-api-key` for authorization. The value for this header is set via the `API_KEY` environment variable in the docker-compose.yml file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value or a 401 status code will be returned.
 
-When running locally, the webhook is not a secure connection, it is http. The Everactive webhook subscription requires an https connection. To expose the local application and provide a secure connection we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel).
+**Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. This app will return a 200 status code whenever it receives a duplicate entry, but it will not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the postgres database, it will return a 400 status code to the webhook publisher.
+
+**HTTPS:** When running locally, the webhook is exposed as an HTTP connection. Everactive's webhook publishers require HTTPS connections to all webhook receivers. To expose the local application to the public internet and provide a secure HTTPS connection, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel).
 
 ## Timescale Postgres
 
 A Timescale postgres instance is used to store the sensor readings in a Timescale hypertable, `sensor_readings`.
 
-The database exposes port 4441 to connect using a Postgres client. The docker-compose.yml file sets the postgres user / password to postgres / postgres. If modified, the grafana and node database connection values must also be modified.
+The database exposes port 4441 to connect using a Postgres client. The docker-compose.yml file sets the postgres user / password to postgres / postgres. If modified, the Grafana and Node database connection values must also be modified.
 
 The table is created when the container is started. The table creation sql can be found in the `./timeseries-db/initdb.d/create_tables.sql` script.
 

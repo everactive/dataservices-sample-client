@@ -62,7 +62,7 @@ app.post('/', async (req, res) => {
         // crashing the webhook receiver.
         if (e?.constraint?.includes('sensor_readings_pkey')) {
             console.log(`Duplicate entry received.`);
-            res.sendStatus(200);
+            res.sendStatus(304);
             return;
         } else {
             console.log(`Error while saving record: ${JSON.stringify(e)}`)
