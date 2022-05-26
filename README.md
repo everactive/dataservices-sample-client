@@ -18,9 +18,9 @@ The node webhook application is an [express](https://www.npmjs.com/package/expre
 
 `GET /health` - Returns a simple 200 status code if the application is running successfully.
 
-**Authorization:** To prevent invalid requests to the webhook application, the POST and GET / endpoints require a header `x-api-key` for authorization. The value for this header is set via the `API_KEY` environment variable in the docker-compose.yml file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value or a 401 status code will be returned.
+**Authorization:** To prevent invalid requests to the webhook application, the POST and GET / endpoints require a header `x-api-key` for authorization. The value for this header is set via the `API_KEY` environment variable in the docker-compose.yml file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value or a 401 (Unauthorized) status code will be returned.
 
-**Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. This app will return a 200 status code whenever it receives a duplicate entry, but it will not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the postgres database, it will return a 400 status code to the webhook publisher.
+**Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. This app will return a 304 (Not Modified) status code whenever it receives a duplicate entry, but it will not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the postgres database, it will return a 400 (Bad Request) status code to the webhook publisher.
 
 **HTTPS:** When running locally, the webhook is exposed as an HTTP connection. Everactive's webhook publishers require HTTPS connections to all webhook receivers. To expose the local application to the public internet and provide a secure HTTPS connection, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel).
 
