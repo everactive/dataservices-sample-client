@@ -21,7 +21,7 @@ var insertReading = async function (reading) {
         reading
     ) values (
         $1, $2, $3, $4, $5, $6
-    )`;
+    ) ON CONFLICT DO NOTHING`;
     const values = [macAddress, timestamp, serialNumber, schema, schemaVersion, JSON.stringify(reading)]
     await pool.query(query, values);
 }
