@@ -56,19 +56,9 @@ app.post('/', async (req, res) => {
     try {
         await InsertReading(doc);
     } catch (e) {
-        // It's possible for webhook publishers to send duplicate
-        // entries to webhook subscribers in some circumstances. This
-        // try/catch is to prevent duplicate key violations from
-        // crashing the webhook receiver.
-        if (e?.constraint?.includes('sensor_readings_pkey')) {
-            console.log(`Duplicate entry received.`);
-            res.sendStatus(304);
-            return;
-        } else {
-            console.log(`Error while saving record: ${JSON.stringify(e)}`)
-            res.sendStatus(400);
-            return;
-        }
+        console.log(`Error while saving record: ${JSON.stringify(e)}`)
+        res.sendStatus(400);
+        return;
     }
 
     values.unshift(doc);
