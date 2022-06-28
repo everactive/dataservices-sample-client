@@ -42,7 +42,7 @@ var insertGatewayStatus = async function (gatewayStatus) {
   }
 
   const serial = gatewayStatus.serial;
-  const timestamp = new Date(gatewayStatus.timestamp) * 1000;
+  const timestamp = new Date(gatewayStatus.timestamp);
   const schema = gatewayStatus.schema;
 
   const query = `INSERT INTO public.gateway_status (

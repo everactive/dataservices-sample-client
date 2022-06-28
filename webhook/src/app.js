@@ -95,7 +95,7 @@ app.post('/gateway_status', async (req, res) => {
         return;
     }
 
-    values.unshift(doc);
+    values.unshift(payload);
     if (values.length > 10) {
         values.length = 10;
     }
