@@ -12,9 +12,11 @@ The environment has three main componets:
 
 The node webhook application is an [express](https://www.npmjs.com/package/express) application that exposes three endpoints. By default the webhook application uses port 4440. This can be changed in the docker-compose.yml file.
 
-`POST /` - The webhook endpoint. Each Eversensor reading received is stored in the postgres `sensor_readings` table.
+`POST /` - The sensor readings webhook endpoint. Each Eversensor reading received is stored in the postgres `sensor_readings` table.
 
-`GET /` - Returns the last ten Eversensor readings received.
+`POST /gateway_status` - The gateway status webhook endpoint. Each Gateway Status payload received is stored in the postgres `gateway_status` table.
+
+`GET /` - Returns the last ten messages received.
 
 `GET /health` - Returns a simple 200 status code if the application is running successfully.
 
