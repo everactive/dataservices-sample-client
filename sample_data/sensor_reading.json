@@ -1,0 +1,102 @@
+{
+  "gatewaySerialNumber": "SYN0001",
+  "macAddress": "01:01:01:ff:fe:00:0c:fe",
+  "packetNumberGateway": 77662,
+  "packetNumberEversensor": 109,
+  "readingDate": "2022-06-28T20:19:51Z",
+  "schema": "https://evr.ac/schemas/platform/eversensor/vibration-electrical/v1/reading",
+  "schemaVersion": "v1",
+  "timestamp": 1656447591,
+  "rssiUplink": -53,
+  "scap": 4.3125,
+  "vcap": 4.25,
+  "unsolicited": false,
+  "humidityMeasurements": [{ "sensorIndex": 0, "value": 4.1054688 }],
+  "temperatureMeasurements": [
+    { "sensorIndex": 0, "value": 332.3125 },
+    { "sensorIndex": 1, "value": 336.8125 }
+  ],
+  "vibrationalMeasurements": {
+    "velocity": {
+      "maxLevels": {
+        "axial": 3.2659326,
+        "radial": 2.6050544,
+        "tangential": 1.5547563
+      },
+      "overallLevels": {
+        "axial": 4.113861,
+        "radial": 4.0024586,
+        "tangential": 1.6968622
+      },
+      "spectralPeaks": {
+        "axial": [
+          { "frequency": 59.043324, "magnitude": 3.2659326 },
+          { "frequency": 26.40535, "magnitude": 0.4170031 },
+          { "frequency": 313.47318, "magnitude": 0.1493329 },
+          { "frequency": 44.53125, "magnitude": 0.11351837 },
+          { "frequency": 118.054665, "magnitude": 0.11137869 },
+          { "frequency": 50, "magnitude": 0.087224506 },
+          { "frequency": 65.625, "magnitude": 0.07854671 },
+          { "frequency": 67.96875, "magnitude": 0.05229005 },
+          { "frequency": 10.9375, "magnitude": 0.034837704 }
+        ],
+        "radial": [
+          { "frequency": 59.07615, "magnitude": 2.6050544 },
+          { "frequency": 57.8125, "magnitude": 1.7169626 },
+          { "frequency": 117.94005, "magnitude": 0.7685152 },
+          { "frequency": 26.534986, "magnitude": 0.49288356 },
+          { "frequency": 120.805336, "magnitude": 0.27294868 },
+          { "frequency": 63.28125, "magnitude": 0.12005277 },
+          { "frequency": 14.0625, "magnitude": 0.10494477 },
+          { "frequency": 9.375, "magnitude": 0.09088428 },
+          { "frequency": 7.8125, "magnitude": 0.084478274 }
+        ],
+        "tangential": [
+          { "frequency": 58.874607, "magnitude": 1.5547563 },
+          { "frequency": 26.516129, "magnitude": 0.7965878 },
+          { "frequency": 57.03125, "magnitude": 0.52691936 },
+          { "frequency": 118.13244, "magnitude": 0.3229837 },
+          { "frequency": 120.77507, "magnitude": 0.3042401 },
+          { "frequency": 22.428112, "magnitude": 0.26857257 },
+          { "frequency": 32.459892, "magnitude": 0.2449747 },
+          { "frequency": 176.49582, "magnitude": 0.20306118 },
+          { "frequency": 19.241898, "magnitude": 0.16146952 }
+        ]
+      },
+      "configurationMetadata": {
+        "units": "mm/s",
+        "sampleRate": 3200,
+        "sampleCount": 4096,
+        "bitsPerSample": 12,
+        "sampleFullScale": 2
+      }
+    },
+    "acceleration": {
+      "maxLevels": {
+        "axial": 7738.06,
+        "radial": 21605.277,
+        "tangential": 5286.3975
+      },
+      "configurationMetadata": {
+        "units": "mg",
+        "sampleRate": 3200,
+        "sampleCount": 4096,
+        "bitsPerSample": 12,
+        "sampleFullScale": 2
+      }
+    }
+  },
+  "electricalFieldMeasurements": {
+    "maxLevel": 40.49398,
+    "spectral_peaks": [
+      { "frequency": 60.051853, "magnitude": 40.49398 },
+      { "frequency": 14.0625, "magnitude": 2.687784 }
+    ],
+    "configurationMetadata": {
+      "units": "micro-teslas",
+      "sampleRate": 800,
+      "sampleCount": 512,
+      "bitsPerSample": 9
+    }
+  }
+}
