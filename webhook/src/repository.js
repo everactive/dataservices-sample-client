@@ -66,4 +66,5 @@ var insertGatewayStatus = async function (gatewayStatus) {
 
 module.exports = {
   insertReading: insertReading,
+  insertGatewayStatus: insertGatewayStatus,
 };
