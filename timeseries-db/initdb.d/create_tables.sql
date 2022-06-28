@@ -1,5 +1,9 @@
 BEGIN;
 
+--
+-- public.sensor_readings
+--
+
 CREATE TABLE IF NOT EXISTS public.sensor_readings (
     sensor_mac_address macaddr8 NOT NULL,
     ts timestamp with time zone NOT NULL,
@@ -21,11 +25,15 @@ DO $$ BEGIN
     PERFORM public.create_hypertable('public.sensor_readings', 'ts', if_not_exists => true);
 END $$;
 
+--
+-- public.gateway_status
+--
+
 CREATE TABLE IF NOT EXISTS public.gateway_status (
-    ts timestamp with time zone NOT NULL,
     gateway_serial text NOT NULL,
+    ts timestamp with time zone NOT NULL,
     schema text NOT NULL,
-    reading jsonb,
+    payload jsonb NOT NULL,
     created_at timestamp with time zone DEFAULT now()
 );
 
