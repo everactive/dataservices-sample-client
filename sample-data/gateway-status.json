@@ -1,0 +1,111 @@
+{
+  "Connectivity": {
+    "devices": [
+      { "name": "wlan0", "status": "Disconnected", "type": "Wifi" },
+      { "name": "eth0", "status": "Unavailable", "type": "Ethernet" },
+      {
+        "address": ["192.168.0.1"],
+        "ConnectionQuality": { "operator": "AT\u0026T", "signalStrength": 51 },
+        "name": "cdc-wdm0",
+        "status": "Activated",
+        "type": "Modem"
+      }
+    ]
+  },
+  "Environmental": {
+    "ledState": { "condition": true, "status": "ltem_connection_off" },
+    "sensors": {
+      "caseHumidity": 21.981000083401796,
+      "caseTemperature": 319.1224975368633
+    }
+  },
+  "schema": "gateway_status_v3.schema.json",
+  "serial": "SYN0001",
+  "Services": {
+    "firmwareVersions": {
+      "boomerang": "Feb 11 2021 14:50:20 boomerang/v1.3.0-0-g6c2b2e9"
+    },
+    "mqttQueueSize": { "heapSize": 107712, "queueSize": 88 },
+    "ntpDrift": {
+      "lastoffset": 0.00471275020390749,
+      "rmsoffset": 0.012043577618896961
+    },
+    "online": false,
+    "softwareVersions": {
+      "caracalla": "16.04-1.43",
+      "caracalla-kernel": "4.4.0-225.258",
+      "core": "16-2.56",
+      "everactive-chrony": "b998575",
+      "everactive-cloud-connector": "4382ecc",
+      "everactive-dingo": "0.1-34-g85715d9",
+      "everactive-dnsmasq": "2.80snap1",
+      "everactive-evernet": "v2.0.0-47-g1ab2d9d",
+      "everactive-firmware-ramcharger": "4144-1a4daa5",
+      "everactive-firmware-utilities": "beta-20220302-12-geb87ef5",
+      "everactive-gateway-base": "beta-20220302-4-g1c0023f",
+      "everactive-gateway-controller": "0263f0b",
+      "everactive-gateway-essentials": "916b30f",
+      "everactive-gateway-services": "v1.10.0-118-g8e2979a",
+      "everactive-iot-agent": "3a5411a",
+      "everactive-modemreboot": "prestable-81-g66c19aa",
+      "everactive-nats": "2.2.2-a1b941d",
+      "everactive-psiclone": "1.3-168-g8318af8",
+      "everactive-ramcharger": "prestable-22-g346d908",
+      "everactive-ufw": "210993a"
+    }
+  },
+  "System": {
+    "diskUsage": [
+      {
+        "device": "/dev/mmcblk0p4",
+        "mount": "/var/lib/snapd/hostfs/etc/cloud",
+        "total": 26118220,
+        "used": 5083512
+      },
+      {
+        "device": "/dev/mmcblk0p2",
+        "mount": "/var/lib/snapd/hostfs/boot/efi",
+        "total": 64511,
+        "used": 3699
+      }
+    ],
+    "loadAvg": { "l1": 0.08, "l15": 0.24, "l5": 0.14 },
+    "memoryUsage": { "total": 1916392, "used": 1064980 },
+    "processList": [
+      {
+        "cpuPercentage": 3.06,
+        "cpuSeconds": 50756,
+        "memPercentage": 0.69,
+        "name": "psiclone",
+        "pid": 4564,
+        "wallClockSeconds": 1659901
+      },
+      {
+        "cpuPercentage": 2.95,
+        "cpuSeconds": 48943,
+        "memPercentage": 0.45,
+        "name": "systemd",
+        "pid": 1,
+        "wallClockSeconds": 1659959
+      },
+      {
+        "cpuPercentage": 0.28,
+        "cpuSeconds": 4689,
+        "memPercentage": 12.79,
+        "name": "mysqld",
+        "pid": 4057,
+        "wallClockSeconds": 1659912
+      },
+      {
+        "cpuPercentage": 1.99,
+        "cpuSeconds": 33076,
+        "memPercentage": 1.82,
+        "name": "snapd",
+        "pid": 3649,
+        "wallClockSeconds": 1659919
+      }
+    ],
+    "uptime": 1659959
+  },
+  "timestamp": "2022-06-28T19:44:37Z"
+}

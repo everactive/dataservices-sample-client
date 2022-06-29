@@ -23,7 +23,7 @@ services:
     container_name: sample-grafana-app
     restart: unless-stopped
     environment:
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/usr/share/grafana/public/dashboards/sensor-readings.json
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/usr/share/grafana/public/dashboards/data-services-dashboard.json
       - TIMESERIES_USER=postgres
       - TIMESERIES_PASSWORD=postgres
     depends_on:
