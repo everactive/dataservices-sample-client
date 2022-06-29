@@ -86,6 +86,6 @@ Steps to use this sample:
 
 Once the webhook is registered and receiving data, the Grafana application can be used to view the data. The Grafana application is available at `http://localhost:4442`, the initial login username / password is admin / admin.
 
-A default dashboard is included in the Grafana application. It will show temperature and humidity readings as they are received. If you configured the gateway status webhook subscription as well, you will also see a table with gateway status messages.
+A default dashboard is included in the Grafana application. It will show temperature and humidity readings as they are received. If you configured a gateway status webhook subscription, you will also see a table with gateway status messages.
 
 ![Screenshot of Grafana Dashboard showing a temperature data graph and a table of gateway status messages.](./images/grafana-screenshot.png)
