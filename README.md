@@ -24,15 +24,15 @@ The node webhook application is an [express](https://www.npmjs.com/package/expre
 
 **Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. This app will return a 304 (Not Modified) status code whenever it receives a duplicate entry, but it will not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the postgres database, it will return a 400 (Bad Request) status code to the webhook publisher.
 
-**HTTPS:** When running locally, the webhook is exposed as an HTTP connection. Everactive's webhook publishers require HTTPS connections to all webhook receivers. To expose the local application to the public internet and provide a secure HTTPS connection, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel).
+**HTTPS:** When running locally, the webhook is exposed as an HTTP connection. Everactive's webhook publishers require HTTPS connections to all webhook receivers. To expose the local application to the public internet and provide a secure HTTPS connection, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel) or [ngrok](https://ngrok.com/).
 
 ## Timescale Postgres
 
-A Timescale postgres instance is used to store the sensor readings in a Timescale hypertable, `sensor_readings`.
+A Timescale postgres instance is used to store the sensor readings and gateway status messages in 2 Timescale hypertables named `sensor_readings` and `gateway_status`.
 
 The database exposes port 4441 to connect using a Postgres client. The docker-compose.yml file sets the postgres user / password to postgres / postgres. If modified, the Grafana and Node database connection values must also be modified.
 
-The table is created when the container is started. The table creation sql can be found in the `./timeseries-db/initdb.d/create_tables.sql` script.
+The tables are created when the container is started. The table creation sql can be found in the `./timeseries-db/initdb.d/create_tables.sql` script.
 
 ## Grafana
 
@@ -52,11 +52,13 @@ Steps to use this sample:
   docker-compose up -d
   ```
   Note: The webhook runs on port 4440 by default and the grafana application runs on port 4442. These can be changed by editing the docker-compose.yml file.
-- Create an https tunnel to the webhook. If you have node installed, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel) with npx.
-  ```
+- Create an https tunnel to the webhook. If you have node installed, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel) with npx. We also recommend using [ngrok](https://ngrok.com/).
+  ```sh
   npx localtunnel --port 4440
+  # alternatively:
+  ngrok http 4440
   ```
-- Register the webhook with Everactive using the following command:
+- Register a sensor reading webhook with Everactive using the following command:
 
   ```
   curl -v -X POST 'https://api.data.everactive.com/ds/v1/webhooks \
@@ -67,6 +69,15 @@ Steps to use this sample:
 
   The webhook should start receiving Eversensor readings within the next few minutes. Each reading is saved in a time series postgres table `sensor_readings`.
 
+- Optionally, you may also register a gateway status webhook with Everactive using the following command:
+
+  ```
+  curl -v -X POST 'https://api.data.everactive.com/ds/v1/webhooks \
+  -H `Authorization: Bearer {{access_token}}' \
+  -H 'Content-Type: application/json' \
+  -d '{"callbackUrl": "https://[your sample webhook url]/gateway_status", "eventType": "gateway_status", "enabled": true, "headers": [{"key": "x-api-key", "value": "secret_key"}]}'
+  ```
+
 - Verify the webhook is receiving data. It can take a few minutes before data is flowing.
   ```
   curl -v -X GET 'http://localhost:4440 \
@@ -75,4 +86,6 @@ Steps to use this sample:
 
 Once the webhook is registered and receiving data, the Grafana application can be used to view the data. The Grafana application is available at `http://localhost:4442`, the initial login username / password is admin / admin.
 
-A default dashboard is included in the Grafana application. It will show temperature and humidity readings as they are received.
+A default dashboard is included in the Grafana application. It will show temperature and humidity readings as they are received. If you configured the gateway status webhook subscription as well, you will also see a table with gateway status messages.
+
+![Screenshot of Grafana Dashboard showing a temperature data graph and a table of gateway status messages.](./images/grafana-screenshot.png)
