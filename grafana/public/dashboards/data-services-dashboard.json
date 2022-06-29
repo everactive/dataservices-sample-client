@@ -24,8 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1652279281006,
+  "id": 2,
+  "iteration": 1656512215331,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -173,7 +173,11 @@
             {
               "datatype": "macaddr8",
               "name": "",
-              "params": ["sensor_mac_address", "=", "'$sensor_mac'"],
+              "params": [
+                "sensor_mac_address",
+                "=",
+                "'$sensor_mac'"
+              ],
               "type": "expression"
             }
           ]
@@ -181,15 +185,170 @@
       ],
       "title": "Temp / Humidity",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PF7D8AB79CB6B7962"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "schema"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 246
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gateway_serial"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 122
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 171
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PF7D8AB79CB6B7962"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  ts AS \"time\",\n  gateway_serial,\n  schema,\n  payload\nFROM gateway_status\nWHERE\n  $__timeFilter(ts) AND\n  gateway_serial = '$gateway_serial'\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "gateway_serial"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "schema"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "payload"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "gateway_status",
+          "timeColumn": "ts",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "text",
+              "name": "",
+              "params": [
+                "gateway_serial",
+                "=",
+                "'$gateway_serial'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "title": "Gateway Status",
+      "type": "table"
     }
   ],
-  "refresh": "1m",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "01:01:01:ff:fe:00:0c:fe",
+          "value": "01:01:01:ff:fe:00:0c:fe"
+        },
         "datasource": {
           "type": "postgres",
           "uid": "PF7D8AB79CB6B7962"
@@ -208,17 +367,42 @@
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "8ZN4G92",
+          "value": "8ZN4G92"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PF7D8AB79CB6B7962"
+        },
+        "definition": "select distinct gateway_serial from public.gateway_status",
+        "description": "List of unique Gateway Serials",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Gateway Serial",
+        "multi": false,
+        "name": "gateway_serial",
+        "options": [],
+        "query": "select distinct gateway_serial from public.gateway_status",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Sensor Data",
-  "uid": "LVdb09_nk",
-  "version": 4,
+  "title": "Data Services Dashboard",
+  "uid": "Jo0DY_3nk",
+  "version": 6,
   "weekStart": ""
 }
