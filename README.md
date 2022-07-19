@@ -2,11 +2,12 @@
 
 This repository contains a multi-container Docker Compose environment to receive, store and review Eversensor time series readings. 
 
-NOTE: This project is intended as a tool to for evaluating Everactive's Data Services; it is not a production-ready sample.
+   *NOTE: This project is intended as a tool to for evaluating Everactive's Data Services; it is not a production-ready sample.*
 
 The environment has three main components that make use of open-source development tools:
 
-- A [Node.js](https://nodejs.org) [Express](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction#web_frameworks) application webhook that receives Eversensor readings.
+- A [Node.js](https://nodejs.org) [Express]((https://www.npmjs.com/package/express) application webhook that receives Eversensor readings.
+  (See more information about [using Express](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction#web_frameworks.)
 - A [TimescaleDB](https://timescale.com) PostgreSQL database to store the Eversensor readings in a time-series hypertable.
 - A [Grafana](https://grafana.com) application to provide a dashboard for the time series data.
 
@@ -16,23 +17,23 @@ The webhook application is an [Express](https://www.npmjs.com/package/express) a
 
 | Webhook endpoint | Description |
 |:----------------|:---------------|
-|`POST /` | The sensor readings webhook endpoint. Each Eversensor reading received is stored in the postgres `sensor_readings` table. |
-|`POST /gateway_status` | The gateway status webhook endpoint. Each Gateway Status payload received is stored in the postgres `gateway_status` table. |
+|`POST /` | The sensor readings webhook endpoint. Each Eversensor reading received is stored in the Postgres `sensor_readings` table. |
+|`POST /gateway_status` | The gateway status webhook endpoint. Each Gateway Status payload received is stored in the Postgres `gateway_status` table. |
 |`GET /` | Returns the last ten messages received. |
 |`GET /health` | Returns a simple 200 status code if the application is running successfully.|
 
-**Authorization:** To prevent invalid requests to the webhook application, the `POST` and `GET /` endpoints require a header `x-api-key` for authorization. The value for this header is set via the `API_KEY` environment variable in the `docker-compose.yml` config file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value or a 401 (Unauthorized) status code is returned.
+**Authorization:** To prevent invalid requests to the webhook application, the `POST` and `GET /` endpoints require a header `x-api-key` for authorization. The value for this header is set using the `API_KEY` environment variable in the `docker-compose.yml` config file. It is set to `secret_key` by default. All requests to these two endpoints must include the `x-api-key` header with the correct value; otherwise, a 401 (Unauthorized) status code is returned.
 
-**Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. When it receives a duplicate entry, the app returns a 304 (Not Modified) status code, and does not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the postgres database, it returns a 400 (Bad Request) status code to the webhook publisher.
+**Duplicate Entries:** In some circumstances, it's possible for webhook publishers to send duplicate entries to webhook receivers. When it receives a duplicate entry, the app returns a 304 (Not Modified) status code, and does not store the duplicate reading in the `sensor_readings` table. If the webhook receiver receives some other error from the Postgres database, it returns a 400 (Bad Request) status code to the webhook publisher.
 
 **HTTPS:** When running locally, the webhook is exposed as an HTTP connection. Everactive's webhook publishers require HTTPS connections to all webhook receivers. To expose the local application to the public internet and provide a secure HTTPS connection, we recommend using [localtunnel](https://www.npmjs.com/package/localtunnel) or [ngrok](https://ngrok.com/).
 
 ### Database configuration
 
-A [TimescaleDB](https://www.timescale.com/) Postgres instance is used to store the sensor readings and gateway status messages in 2 Timescale hypertables named `sensor_readings` and `gateway_status`.
+A [TimescaleDB](https://www.timescale.com/) Postgres instance is used to store the sensor readings and gateway status messages in two Timescale hypertables named `sensor_readings` and `gateway_status`.
 
 - The database exposes port 4441 to connect using a Postgres client. 
-- The `docker-compose.yml` configuration file sets the postgres user / password to `postgres` / `postgres`. If you modify these values, you must also make the same changes to the Grafana and Node database connection values.
+- The `docker-compose.yml` configuration file sets the Postgres user / password to `postgres` / `postgres`. If you modify these values, you must also make the same changes to the Grafana and Node.js database connection values.
 - The tables are created when the container is started, using the SQL script `./timeseries-db/initdb.d/create_tables.sql`.
 
 ### Data visualization dashboard
@@ -73,7 +74,7 @@ To use the sample, take the following steps:
   -d '{"callbackUrl": "https://[your sample webhook url]", "eventType": "sensor_reading", "enabled": true, "headers": [{"key": "x-api-key", "value": "secret_key"}]}'
   ```
 
-  The webhook should start receiving Eversensor readings within the next few minutes. Each reading is saved in a time-series postgres table `sensor_readings`.
+  The webhook should start receiving Eversensor readings within the next few minutes. Each reading is saved in a time-series Postgres table `sensor_readings`.
 
 4. Optionally, you can also register a gateway-status webhook with Everactive using the following command:
 
