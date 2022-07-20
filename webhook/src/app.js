@@ -26,7 +26,7 @@ const port = process.env.PORT || 3000;
 const values = [];
 
 /**
- * Handler for 'GET webhooks/health' requests from Evercloud
+ * Handler for 'GET webhooks/health' requests from Evercloud.
  * Returns a success response if the webhook server is up and running.
  */
 app.get('/health', async (req, res) => {
@@ -34,8 +34,7 @@ app.get('/health', async (req, res) => {
 });
 
 /**
- * Handler for 'GET webhooks' requests from Evercloud
- *
+ * Handler for 'GET webhooks' requests from Evercloud.
  * Returns an array the last ten messages received via the POST / endpoint.
  */
 app.get('/', async (req, res) => {
@@ -48,8 +47,7 @@ app.get('/', async (req, res) => {
 });
 
 /**
- * Handler for 'POST .../webhooks' requests from Evercloud
- *
+ * Handler for 'POST .../webhooks' requests from Evercloud.
  * Stores the body containing reported readings in the ephemeral values array
  * and persists the data to the 'sensor_readings' table in the database.
  */
@@ -80,8 +78,7 @@ app.post('/', async (req, res) => {
 });
 
 /**
- * Handler for 'POST .../webhooks/gateway_status' requests from Evercloud
- *
+ * Handler for 'POST .../webhooks/gateway_status' requests from Evercloud.
  * Stores the body containing reported status in the ephemeral values array
  *  and persists the data to the 'gateway_status' table in the database.
  */
@@ -111,6 +108,9 @@ app.post('/gateway_status', async (req, res) => {
     res.sendStatus(200);
 });
 
+/**
+ * Begins listening for event notifications on the assigned port.
+ */
 app.listen(port, () => {
     console.log(`listening on port ${port}, api-secret: ${secret}`);
 });
